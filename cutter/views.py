@@ -1,7 +1,6 @@
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.template import loader
 from django.core.cache import cache
-from django.views.decorators.cache import cache_page
 from .forms import UrlForm
 import base64
 
@@ -57,13 +56,10 @@ def cutter(request):
     else:
         return HttpResponseRedirect(reverse('index'))
 
-# save in cache for 5 minuts
-@cache_page(60 * 5)
 def index(request, id=None):
 
     # is our counters in Redis?
     total_visits = cache.get('total_visits', default=-1)
-
     # nope; it's first run. Lets init them.
     if total_visits == -1:
         total_visits = 0
@@ -106,11 +102,16 @@ def index(request, id=None):
     else:
         unique_visits = cache.get('unique_visits')
 
+        try:
+            link = base64.urlsafe_b64decode(id).decode('utf-8')
+        except:
+            link = ''
+
         context = {
             'counters': True,
             'unique': False,
             'total_visit': total_visits,
             'unique_visit': unique_visits,
-            'form_default': base64.urlsafe_b64decode(id).decode('utf-8'),
+            'form_default': link,
         }
         return HttpResponse(template.render(context, request))

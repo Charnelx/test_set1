@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+
+{% if unique %}
+    <p>Hello, newbie!</p>
+{% else %}
+    <p>Nice to meat you again.</p>
+{% endif %}
+
+{% if counters %}
+    <p>Total visitors: <strong>{{ total_visit }}</strong></p>
+    <p>Unique visitors: <strong>{{ unique_visit }}</strong></p>
+{% else %}
+    <p>Sorry, something goes wrong :(</p>
+{% endif %}
+<form action="/cutter/" method="post">
+    {% csrf_token %}
+    <label for="turl">URL to shorten: </label>
+    <input id="turl" type="text" name="turl" value={{ form_default }}>
+    <input type="submit" value="OK">
+</form>
+
+</body>
+</html>

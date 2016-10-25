@@ -54,6 +54,8 @@ def cutter(request):
 
             link = base64.urlsafe_b64encode('{0}/{1}'.format(domain, base_index).encode('utf-8'))
             return HttpResponseRedirect(reverse('index', kwargs={'id': link}))
+    else:
+        return HttpResponseRedirect(reverse('index'))
 
 # save in cache for 5 minuts
 @cache_page(60 * 5)

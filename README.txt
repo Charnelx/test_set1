@@ -15,4 +15,6 @@ Links:
 DOMAIN/home/ - counters (overall and unique), URL shortener form
 DOMAIN/<alpha-numerical url id>
 
+Tested using local Django server. Test in /apache_test
+
 Enjoy.
